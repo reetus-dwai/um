@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="p5.min.js"></script>
+</head>
+
+<body>
+    <script>
+        "use strict";
+        var s1 = [
+            {
+                x: 200,
+                y: 200
+            },
+            {
+                x: 300,
+                y: 200
+            },
+            {
+                x: 300,
+                y: 300
+            },
+            {
+                x: 200,
+                y: 300
+            }
+        ];
+        var s2 = [
+            {
+                x: 400,
+                y: 400
+            },
+            {
+                x: 500,
+                y: 400
+            },
+            {
+                x: 500,
+                y: 500
+            },
+            {
+                x: 400,
+                y: 500
+            }
+        ];
+
+        function vectorDotProduct(pt1, pt2){
+            return (pt1.x * pt2.x) + (pt1.y * pt2.y);
+        }
+        function getProjections(array) {}
+
+        function setup() {
+            createCanvas(600, 600);
+        }
+        var m = 0;
+        function draw() {
+            //movement
+            if (keyIsDown(87)) {
+                //w
+                s1[0].y--;
+                s1[1].y--;
+                s1[2].y--;
+                s1[3].y--;
+            }
+            if (keyIsDown(65)) {
+                //a
+                s1[0].x--;
+                s1[1].x--;
+                s1[2].x--;
+                s1[3].x--;
+            }
+            if (keyIsDown(83)) {
+                //s
+                s1[0].y++;
+                s1[1].y++;
+                s1[2].y++;
+                s1[3].y++;
+            }
+            if (keyIsDown(68)) {
+                //d
+                s1[0].x++;
+                s1[1].x++;
+                s1[2].x++;
+                s1[3].x++;
+            }
+
+            //physics
+            let s1p = getProjections(s1);
+            let s2p = getProjections(s2);
+            if (m < 5) console.log('.');
+            m++;
+
+            let axis = {
+                x: -(s1[1].y - s1[0].y),
+                y: s1[1].x - s1[0].x
+            }
+
+            //normalize axis
+            let magnitude = Math.sqrt(Math.pow(axis.x, 2), Math.pow(axis.y, 2));
+            if(magnitude != 0){
+                axis.x *= 1 / magnitude;
+                axis.y *= 1 / magnitude;
+            }
+
+            //rendering
+            background(255);
+            push();
+            fill(0, 0, 255);
+            beginShape();
+            s1.map((point) => {
+                vertex(point.x, point.y);
+            });
+            endShape(CLOSE);
+            pop();
+
+            push();
+            fill(0, 255, 0);
+            beginShape();
+            s2.map((point) => {
+                vertex(point.x, point.y);
+            });
+            endShape(CLOSE);
+            pop();
+        }
+
+    </script>
+</body>
+
+</html>
